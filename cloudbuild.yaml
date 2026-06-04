@@ -1,0 +1,54 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'ecommerce-aggregator-backend'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
+      - '--region'
+      - 'asia-southeast2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      # Env vars biasa (tidak sensitif) — aman diletakkan di sini
+      - '--set-env-vars'
+      - >-
+        NODE_ENV=production,
+        PORT=8080,
+        JWT_EXPIRES_IN=1d,
+        LOG_LEVEL=info,
+        CORS_ORIGIN=*,
+        API_PREFIX=/api/v1,
+        MARKETPLACE_SYNC_TIMEOUT_MS=5000,
+        SHOPEE_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/shopee,
+        TOKOPEDIA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/tokopedia,
+        LAZADA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/lazada,
+        GCP_BUCKET_NAME=synchub-bucket
+      # Secret sensitif — di-inject dari Google Secret Manager sebagai env var
+      # Format: ENV_VAR_NAME=SECRET_MANAGER_NAME:VERSION
+      - '--set-secrets'
+      - >-
+        MYSQL_URL=MYSQL_URL:latest,
+        MONGO_URL=MONGO_URL:latest,
+        JWT_SECRET=JWT_SECRET:latest,
+        INTERNAL_API_KEY=INTERNAL_API_KEY:latest
+
+images:
+  - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

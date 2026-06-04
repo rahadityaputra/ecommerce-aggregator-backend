@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url= env("MYSQL_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum ProductStatus {
+  ACTIVE
+  DRAFT
+  ARCHIVED
+}
+
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  internalSku String        @unique @map("internal_sku")
+  description String        @default("")
+  category    String        @default("Uncategorized")
+  brand       String        @default("Generic")
+  price       Decimal       @db.Decimal(12, 2)
+  stock       Int           @default(0)
+  weight      Decimal       @default(0) @db.Decimal(10, 2)
+  imageUrl    String?       @map("image_url")
+  status      ProductStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  images     ProductImage[]
+  orderItems OrderItem[]
+  mappings   Mapping[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  productId Int      @map("product_id")
+  imageUrl  String   @map("image_url")
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+model Marketplace {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("marketplaces")
+}
+
+model Mapping {
+  id                   Int      @id @default(autoincrement())
+  marketplace          String
+  marketplaceSku       String   @map("marketplace_sku")
+  marketplaceProductId String?  @map("marketplace_product_id")
+  internalSku          String   @map("internal_sku")
+  productId            Int?     @map("product_id")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  product Product? @relation(fields: [productId], references: [id])
+
+  @@unique([marketplace, marketplaceSku])
+  @@map("mappings")
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  marketplace String
+  orderCode   String   @unique @map("order_code")
+  status      String
+  totalPrice  Decimal  @map("total_price") @db.Decimal(12, 2)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int      @map("order_id")
+  productId Int      @map("product_id")
+  qty       Int
+  price     Decimal  @db.Decimal(12, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
