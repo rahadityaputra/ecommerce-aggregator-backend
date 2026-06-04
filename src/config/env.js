@@ -28,8 +28,9 @@ const env = {
     mongoUrl:   requireEnv("MONGO_URL"),
 
     // --- Redis ---
-    redisHost:  process.env.REDIS_HOST || "localhost",
-    redisPort:  Number(process.env.REDIS_PORT || 6379),
+    redisHost:      process.env.REDIS_HOST || "localhost",
+    redisPort:      Number(process.env.REDIS_PORT || 6379),
+    redisPassword:  requireEnv("REDIS_PASSWORD"),
 
     // --- Auth (wajib di production, diisi via Secret Manager) ---
     jwtSecret:      requireEnv("JWT_SECRET"),

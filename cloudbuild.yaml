@@ -30,7 +30,7 @@ steps:
       # Secret sensitif — di-inject dari Google Secret Manager sebagai env var
       # Format: ENV_VAR_NAME=SECRET_MANAGER_NAME:VERSION
       - '--set-secrets'
-      - 'MYSQL_URL=MYSQL_URL:latest,MONGO_URL=MONGO_URL:latest,JWT_SECRET=JWT_SECRET:latest,INTERNAL_API_KEY=INTERNAL_API_KEY:latest,REDIS_HOST=REDIS_HOST:latest'
+      - 'MYSQL_URL=MYSQL_URL:latest,MONGO_URL=MONGO_URL:latest,JWT_SECRET=JWT_SECRET:latest,INTERNAL_API_KEY=INTERNAL_API_KEY:latest,REDIS_HOST=REDIS_HOST:latest,REDIS_PASSWORD=REDIS_PASSWORD:latest'
 
 images:
   - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
