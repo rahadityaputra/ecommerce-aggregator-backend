@@ -12,4 +12,4 @@ ENV MYSQL_URL=${MYSQL_URL}
 
 RUN npx prisma generate
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
