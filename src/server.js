@@ -8,8 +8,7 @@ const { initSocket } = require("./websocket/socket");
 const startWorkers = require("./modules/queues/queue.workers");
 
 async function bootstrap() {
-    await connectPrisma();
-    await connectMongo();
+    const port = env.port || 8080;
 
     const server = http.createServer(app);
     const io = new Server(server, {
@@ -17,11 +16,22 @@ async function bootstrap() {
     });
 
     initSocket(io);
+
+    // Listen on port FIRST agar Cloud Run health check bisa lewat,
+    // baru kemudian connect ke database dan start workers.
+    await new Promise((resolve) => {
+        server.listen(port, () => {
+            logger.info(`Server running on port ${port}`);
+            resolve();
+        });
+    });
+
+    await connectPrisma();
+    await connectMongo();
+
     startWorkers();
 
-    server.listen(env.port || 8080, () => {
-        logger.info(`Server running on port ${env.port}`);
-    });
+    logger.info("Bootstrap complete — all services connected.");
 }
 
 bootstrap().catch((error) => {

@@ -24,27 +24,13 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
-      # Env vars biasa (tidak sensitif) — aman diletakkan di sini
+      # Env vars biasa (tidak sensitif) — satu string, tanpa line break
       - '--set-env-vars'
-      - >-
-        NODE_ENV=production,
-        JWT_EXPIRES_IN=1d,
-        LOG_LEVEL=info,
-        CORS_ORIGIN=*,
-        API_PREFIX=/api/v1,
-        MARKETPLACE_SYNC_TIMEOUT_MS=5000,
-        SHOPEE_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/shopee,
-        TOKOPEDIA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/tokopedia,
-        LAZADA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/lazada,
-        GCP_BUCKET_NAME=synchub-bucket
+      - 'NODE_ENV=production,JWT_EXPIRES_IN=1d,LOG_LEVEL=info,CORS_ORIGIN=*,API_PREFIX=/api/v1,MARKETPLACE_SYNC_TIMEOUT_MS=5000,GCP_BUCKET_NAME=synchub-bucket,SHOPEE_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/shopee,TOKOPEDIA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/tokopedia,LAZADA_MARKETPLACE_BASE_URL=http://YOUR_MOCK_API_HOST/api/lazada'
       # Secret sensitif — di-inject dari Google Secret Manager sebagai env var
       # Format: ENV_VAR_NAME=SECRET_MANAGER_NAME:VERSION
       - '--set-secrets'
-      - >-
-        MYSQL_URL=MYSQL_URL:latest,
-        MONGO_URL=MONGO_URL:latest,
-        JWT_SECRET=JWT_SECRET:latest,
-        INTERNAL_API_KEY=INTERNAL_API_KEY:latest
+      - 'MYSQL_URL=MYSQL_URL:latest,MONGO_URL=MONGO_URL:latest,JWT_SECRET=JWT_SECRET:latest,INTERNAL_API_KEY=INTERNAL_API_KEY:latest'
 
 images:
   - 'gcr.io/$PROJECT_ID/ecommerce-aggregator-backend'
