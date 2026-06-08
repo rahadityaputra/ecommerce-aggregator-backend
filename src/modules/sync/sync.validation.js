@@ -8,6 +8,15 @@ const retrySyncSchema = z.object({
   body: z.object({}).optional()
 });
 
+const triggerStockSyncSchema = z.object({
+  params: z.object({
+    productId: z.string().regex(/^\d+$/)
+  }),
+  query: z.object({}).optional(),
+  body: z.object({}).optional()
+});
+
 module.exports = {
-  retrySyncSchema
+  retrySyncSchema,
+  triggerStockSyncSchema
 };

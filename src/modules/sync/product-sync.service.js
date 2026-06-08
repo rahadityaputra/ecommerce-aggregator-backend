@@ -388,6 +388,8 @@ async function syncProductMutation(action, product) {
 
     emitEvent(getEventName(action), {
         productId: product.id,
+        internalSku: product.internalSku,
+        stock: product.stock,
         action,
         results,
     });

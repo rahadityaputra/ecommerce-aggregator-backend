@@ -27,6 +27,21 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Payload logs fetched
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 meta:
+ *                   $ref: '#/components/schemas/PaginationMeta'
  */
 router.use(authMiddleware);
 router.get("/", controller.list);

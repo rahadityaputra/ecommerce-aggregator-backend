@@ -80,32 +80,8 @@ const handleLazada = asyncHandler(async (req, res) => {
   return created(res, data, 'Lazada webhook accepted');
 });
 
-const mockShopeeOrder = asyncHandler(async (req, res) => {
-  const payload = {
-    order_id: req.body.order_id || `SP-${Date.now()}`,
-    sku: req.body.sku,
-    qty: req.body.qty || 1
-  };
-
-  const data = await processWebhook('shopee', payload);
-  return ok(res, data, 'Mock Shopee order queued');
-});
-
-const mockTokopediaOrder = asyncHandler(async (req, res) => {
-  const payload = {
-    invoice_no: req.body.order_id || `TP-${Date.now()}`,
-    sku: req.body.sku,
-    qty: req.body.qty || 1
-  };
-
-  const data = await processWebhook('tokopedia', payload);
-  return ok(res, data, 'Mock Tokopedia order queued');
-});
-
 module.exports = {
   handleShopee,
   handleTokopedia,
-  handleLazada,
-  mockShopeeOrder,
-  mockTokopediaOrder
+  handleLazada
 };

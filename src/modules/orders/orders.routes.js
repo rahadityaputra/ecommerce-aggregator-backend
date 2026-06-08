@@ -27,6 +27,21 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Orders fetched
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 meta:
+ *                   $ref: '#/components/schemas/PaginationMeta'
  * /api/v1/orders/{id}:
  *   get:
  *     tags: [Orders]
@@ -41,8 +56,23 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Order fetched
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  *       '404':
  *         description: Order not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.use(authMiddleware);
 router.get("/", controller.list);

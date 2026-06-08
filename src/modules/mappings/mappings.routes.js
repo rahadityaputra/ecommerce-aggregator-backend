@@ -13,6 +13,21 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Mappings fetched
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 meta:
+ *                   $ref: '#/components/schemas/PaginationMeta'
  *   post:
  *     tags: [Mappings]
  *     summary: Create mapping
@@ -43,8 +58,23 @@ const router = express.Router();
  *     responses:
  *       '201':
  *         description: Mapping created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  *       '400':
  *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.use(authMiddleware);
 router.get("/", controller.list);

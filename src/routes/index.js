@@ -5,7 +5,6 @@ const marketplacesRoutes = require('../modules/marketplaces/marketplaces.routes'
 const mappingsRoutes = require('../modules/mappings/mappings.routes');
 const ordersRoutes = require('../modules/orders/orders.routes');
 const webhooksRoutes = require('../modules/webhooks/webhooks.routes');
-const mockRoutes = require('../modules/webhooks/mock.routes');
 const syncLogsRoutes = require('../modules/sync-logs/sync-logs.routes');
 const syncRoutes = require('../modules/sync/sync.routes');
 const payloadLogsRoutes = require('../modules/payload-logs/payload-logs.routes');
@@ -20,7 +19,6 @@ router.use('/marketplaces', marketplacesRoutes);
 router.use('/mappings', mappingsRoutes);
 router.use('/orders', ordersRoutes);
 router.use('/webhooks', webhooksRoutes);
-router.use('/mock', mockRoutes);
 router.use('/sync', syncRoutes);
 router.use('/sync-logs', syncLogsRoutes);
 router.use('/payload-logs', payloadLogsRoutes);

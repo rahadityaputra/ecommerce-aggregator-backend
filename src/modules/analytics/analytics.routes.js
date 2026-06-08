@@ -31,7 +31,17 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Analytics summary fetched successfully
- * 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  * /api/v1/analytics/sales:
  *   get:
  *     tags: [Analytics]
@@ -55,7 +65,17 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Sales analytics fetched successfully
- * 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  * /api/v1/analytics/top-products:
  *   get:
  *     tags: [Analytics]
@@ -78,7 +98,17 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Top products analytics fetched successfully
- * 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  * /api/v1/analytics/activities:
  *   get:
  *     tags: [Analytics]
@@ -101,6 +131,17 @@ const router = express.Router();
  *     responses:
  *       '200':
  *         description: Activities fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  */
 router.use(authMiddleware);
 router.get("/summary", controller.summary);
